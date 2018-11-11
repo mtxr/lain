@@ -51,11 +51,11 @@ local function factory(args)
 
     function light.update(callback)
         helpers.async(format_get_cmd, function(value)
-            if not value  then return end
+            if not value or not light._current_level then return end
 
             if value ~= light._current_level then
                 light._current_level = tonumber(value)
-                light.widget:set_text(string.format("%03d%%", light._current_level))
+                light.widget:set_text(string.format("%03d%%", light._current_level or 100))
                 light.tooltip:set_text(string.format("%s: %3d%%", 'Light', light._current_level))
 
                 light_now = {
